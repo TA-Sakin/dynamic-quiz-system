@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import {
-  useSignInWithEmailAndPassword,
-  useSendPasswordResetEmail,
-  useAuthState,
-} from "react-firebase-hooks/auth";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import auth from "../../firebase/firebase.init";
+import { useAuth } from "../../Context/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
-  const [signInWithEmailAndPassword, signInUser, loading, error] =
-    useSignInWithEmailAndPassword(auth);
-  const [sendPasswordResetEmail, sending, passwordError] =
-    useSendPasswordResetEmail(auth);
-  const [user] = useAuthState(auth);
+  const { resetPassword, login, token } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
+  const [passwordResetError, setPasswordResetError] = useState();
+  const location = useLocation();
+
+  let from = location.state?.from?.pathname || "/";
+
   const [info, setInfo] = useState({
     email: "",
     password: "",
   });
-  const [errors, setError] = useState({
+  const [errors, setErrors] = useState({
     email: "",
     password: "",
     infoError: "",
@@ -29,59 +28,86 @@ const Login = () => {
   const handleEmail = (e) => {
     if (e.target.value) {
       setInfo({ ...info, email: e.target.value });
-      setError({ ...errors, email: "" });
+      setErrors({ ...errors, email: "" });
     }
   };
   const handlePassword = (e) => {
     if (e.target.value) {
       setInfo({ ...info, password: e.target.value });
-      setError({ ...errors, password: "" });
+      setErrors({ ...errors, password: "" });
     }
   };
 
   const handleResetPassword = async () => {
-    if (info.email && !passwordError) {
-      await sendPasswordResetEmail(info.email);
-    } else if (passwordError === undefined || passwordError) {
-      setError({ ...errors, email: "Missing email" });
-    } else if (passwordError) {
-      setError({ ...errors, email: `${(passwordError?.code).slice(5)}` });
+    try {
+      if (!info.email) {
+        setErrors({ ...errors, email: "Enter your email" });
+      } else {
+        await resetPassword(info.email);
+        toast("Email sent");
+      }
+    } catch (err) {
+      setPasswordResetError(err);
     }
   };
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!info.email) {
-      setError({ ...errors, email: "Enter a email" });
-    } else if (!info.password) {
-      setError({ ...errors, password: "Enter a password" });
-    } else {
-      await signInWithEmailAndPassword(info.email, info.password);
+    try {
+      if (!info.email) {
+        setErrors({ ...errors, email: "Enter your email" });
+      }
+      if (!info.password) {
+        setErrors({ ...errors, password: "Enter your password" });
+      } else {
+        setError("");
+        setLoading(true);
+        await login(info.email, info.password);
+        if (token) {
+          navigate(from, { replace: true });
+        }
+      }
+    } catch (err) {
+      setLoading(false);
+      setError(err);
     }
   };
-  if (user) {
-    navigate("/");
-  }
+
+  useEffect(() => {
+    if (passwordResetError) {
+      switch (passwordResetError?.code) {
+        case "auth/user-not-found":
+          setErrors((errors) => ({ ...errors, email: "Email not registered" }));
+          break;
+        default:
+          setErrors((errors) => ({
+            ...errors,
+            email: `${passwordResetError?.code?.slice(5)}`,
+          }));
+      }
+    }
+  }, [passwordResetError]);
+
   useEffect(() => {
     if (error) {
-      console.log(error);
       switch (error?.code) {
         case "auth/user-not-found":
-          setError((errors) => ({
+          setErrors((errors) => ({
             ...errors,
             email: "Email not registered",
           }));
           break;
         case "auth/invalid-email":
-          setError((errors) => ({
+          setErrors((errors) => ({
             ...errors,
             email: "Invalid email",
           }));
           break;
         case "auth/wrong-password":
-          setError((errors) => ({ ...errors, password: "Wrong password" }));
+          setErrors((errors) => ({ ...errors, password: "Wrong password" }));
           break;
         default:
-          setError((errors) => ({
+          setErrors((errors) => ({
             ...errors,
             infoError: "User credential don't match",
           }));
@@ -89,6 +115,7 @@ const Login = () => {
       }
     }
   }, [error]);
+
   return (
     <section className="">
       <div className="max-w-sm mx-auto my-20 bg-white p-8 rounded-xl shadow-lg shadow-slate-300">
@@ -172,6 +199,7 @@ const Login = () => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </section>
   );
 };

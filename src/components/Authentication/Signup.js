@@ -1,55 +1,57 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import auth from "../../firebase/firebase.init";
 import { useEffect } from "react";
+import { useAuth } from "../../Context/AuthContext";
+
 const Signup = () => {
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
+  const { token, signup } = useAuth();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [error, setError] = useState();
+
   const [info, setInfo] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const [errors, setError] = useState({
+
+  const [errors, setErrors] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
     emptyError: "",
   });
+
   const handleName = (e) => {
-    const verifyName = /^[a-z ,.'-]+$/i.test(e.target.value);
-    if (verifyName) {
+    if (e.target.name) {
       setInfo({ ...info, name: e.target.value });
-      setError({ ...errors, name: "" });
-    } else {
-      setError({ ...errors, name: "Enter a valid name" });
-      setInfo({ ...info, name: "" });
+      setErrors({ ...errors, name: "" });
     }
   };
+
   const handleEmail = (e) => {
     const verifyEmail = /\S+@\S+\.\S+/.test(e.target.value);
     if (verifyEmail) {
       setInfo({ ...info, email: e.target.value });
-      setError({ ...errors, email: "" });
+      setErrors({ ...errors, email: "" });
     } else {
-      setError({ ...errors, email: "Invalid email" });
+      setErrors({ ...errors, email: "Invalid email" });
       setInfo({ ...info, email: "" });
     }
   };
+
   const handlePassword = (e) => {
     const verifyPassword = /(?=.*?[#?!@$%^&*-]).{6,}/.test(e.target.value);
     const passLength = /.{6,}/.test(e.target.value);
     if (verifyPassword) {
       setInfo({ ...info, password: e.target.value });
-      setError({ ...errors, password: "" });
+      setErrors({ ...errors, password: "" });
     } else {
       if (!passLength) {
-        setError({
+        setErrors({
           ...errors,
           password: "Minimum 6 characters including 1 special character",
         });
@@ -61,41 +63,48 @@ const Signup = () => {
   const handleConfirmPass = (e) => {
     if (e.target.value === info.password) {
       setInfo({ ...info, confirmPassword: e.target.value });
-      setError({ ...errors, confirmPassword: "" });
+      setErrors({ ...errors, confirmPassword: "" });
     } else {
-      setError({ ...errors, confirmPassword: "Password doesn't match" });
+      setErrors({ ...errors, confirmPassword: "Password doesn't match" });
       setInfo({ ...info, confirmPassword: "" });
     }
   };
+
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if (!info.name) {
-      setError({ ...errors, name: "Enter your name" });
-    } else if (!info.email) {
-      setError({ ...errors, email: "Enter your email" });
-    } else if (!info.password) {
-      setError({ ...errors, password: "Enter your password" });
-    } else if (!info.confirmPassword) {
-      setError({ ...errors, confirmPassword: "Confirm your password" });
-    } else {
-      await createUserWithEmailAndPassword(info.email, info.password);
+    try {
+      if (!info.name) {
+        setErrors({ ...errors, name: "Enter your name" });
+      } else if (!info.email) {
+        setErrors({ ...errors, email: "Enter your email" });
+      } else if (!info.password) {
+        setErrors({ ...errors, password: "Enter your password" });
+      } else if (info.confirmPassword !== info.password) {
+        setErrors({ ...errors, confirmPassword: "Password doesn't match" });
+      } else {
+        setLoading(true);
+        await signup(info.email, info.password, info.name);
+        if (token) {
+          navigate("/dashboard");
+        }
+      }
+    } catch (err) {
+      setLoading(false);
+      setError(err);
     }
   };
-  if (user) {
-    navigate("/");
-  }
+
   useEffect(() => {
     if (error) {
-      console.log(error);
       switch (error?.code) {
         case "auth/email-already-in-use":
-          setError((errors) => ({
+          setErrors((errors) => ({
             ...errors,
             email: "Email already in use",
           }));
           break;
         default:
-          setError((errors) => ({
+          setErrors((errors) => ({
             ...errors,
             emptyError: `${error.code.slice(5)}`,
           }));
@@ -105,10 +114,10 @@ const Signup = () => {
   }, [error]);
 
   return (
-    <section className="">
+    <Fragment>
       <div className="max-w-sm mx-auto my-20 bg-white p-8 rounded-xl shadow-lg shadow-slate-300">
         <h1 className="text-2xl text-center font-bold mb-3">Sign up</h1>
-        <form onSubmit={handleSignUp} className="">
+        <form onSubmit={handleSignUp}>
           <div className="flex flex-col space-y-5">
             <label htmlFor="name">
               <p className="text-sm text-slate-700 pb-2">Name</p>
@@ -212,7 +221,7 @@ const Signup = () => {
           </div>
         </form>
       </div>
-    </section>
+    </Fragment>
   );
 };
 
