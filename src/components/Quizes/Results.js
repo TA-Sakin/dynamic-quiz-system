@@ -14,7 +14,6 @@ const Results = () => {
   if (loading) {
     return <Loading />;
   }
-  console.log(showAnswer);
   for (let i = 0; i < state.length; i++) {
     if (_.isEqual(questions[i].answers, state[i][i])) {
       score++;

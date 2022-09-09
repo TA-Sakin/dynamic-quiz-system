@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 // import useQuiz from "../../hooks/useQuiz";
-import { useQuiz } from "../../Context/QuizContext";
 import QuizCard from "./QuizCard";
 
 const QuizList = () => {

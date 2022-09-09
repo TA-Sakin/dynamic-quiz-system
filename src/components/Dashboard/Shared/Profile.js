@@ -3,7 +3,6 @@ import { useAuth } from "../../../Context/AuthContext";
 
 const Profile = () => {
   const { currentUser } = useAuth();
-  console.log(currentUser);
   return (
     <div className="font-semibold mt-10">
       <p>Name: {currentUser?.displayName}</p>

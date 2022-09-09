@@ -16,7 +16,6 @@ import Dashboard from "./components/Dashboard/Shared/Dashboard";
 import Profile from "./components/Dashboard/Shared/Profile";
 import AllUsers from "./components/Dashboard/ForAdmin/AllUsers";
 import CreateQuiz from "./components/Dashboard/ForAdmin/CreateQuiz";
-import { QuizProvider } from "./Context/QuizContext";
 // import StartQuiz from "./components/Quizes/StartQuiz";
 import QuizStart from "./components/Quizes/QuizStart";
 import Routed from "./components/Quizes/Routed";

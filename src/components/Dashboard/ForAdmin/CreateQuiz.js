@@ -20,7 +20,6 @@ const CreateQuiz = () => {
   //   const imgStorageKey = "85af4a16326eb6123558d198cba862d3";
 
   const handleRadio = (e) => {
-    console.log(e.target.value);
     if (e.target.value === "Paid") {
       setShowPrice("visible");
       setPriceRequired(true);
@@ -31,7 +30,6 @@ const CreateQuiz = () => {
   };
 
   const addQuestion = () => {
-    console.log(increaseOptions.options);
     setAddQuestions({
       questions: addQuestions.questions.concat({
         options: [],
@@ -40,7 +38,7 @@ const CreateQuiz = () => {
     });
   };
 
-  const addOption = (e, i) => {
+  const addOption = () => {
     addQuestions.questions.forEach((question) => {
       question.options.concat();
     });
@@ -253,7 +251,7 @@ const CreateQuiz = () => {
                     placeholder="Enter name"
                     className="input input-bordered rounded-none"
                   />
-                  {increaseOptions?.options?.map((option) => (
+                  {question?.options?.map((option) => (
                     <div className="mt-5">
                       <input
                         type="checkbox"
@@ -271,7 +269,7 @@ const CreateQuiz = () => {
                   ))}
                   <div
                     className="btn btn-green-500 rounded-none w-full max-w-sm mt-5"
-                    onClick={(e) => addOption(e, i)}
+                    onClick={addOption}
                   >
                     Add options
                   </div>
