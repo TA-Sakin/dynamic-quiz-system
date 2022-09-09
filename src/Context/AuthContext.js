@@ -8,7 +8,9 @@ import {
 } from "firebase/auth";
 import React, { useContext, useEffect, useState } from "react";
 import Loading from "../components/shared/Loading";
+import useAdmin from "../hooks/useAdmin";
 import useToken from "../hooks/useToken";
+// import useToken from "../hooks/useToken";
 import auth from "../Utils/firebase.init";
 const AuthContext = React.createContext();
 
@@ -41,13 +43,12 @@ export function AuthProvider({ children }) {
       ...user,
     });
   }
-  const [token] = useToken(currentUser);
 
   // login function
   function login(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
   }
-
+  const [token] = useToken(currentUser);
   //reset password
   function resetPassword(email) {
     return sendPasswordResetEmail(auth, email);

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { useAuth } from "../../Context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,9 +10,9 @@ const Login = () => {
   const [error, setError] = useState();
   const [passwordResetError, setPasswordResetError] = useState();
   const location = useLocation();
-
   let from = location.state?.from?.pathname || "/";
 
+  const navigate = useNavigate();
   const [info, setInfo] = useState({
     email: "",
     password: "",
@@ -23,7 +22,6 @@ const Login = () => {
     password: "",
     infoError: "",
   });
-  const navigate = useNavigate();
 
   const handleEmail = (e) => {
     if (e.target.value) {

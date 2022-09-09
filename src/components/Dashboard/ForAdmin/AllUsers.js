@@ -6,17 +6,19 @@ import { useQuery } from "react-query";
 // import DeleteUser from "./DeleteUser";
 import { useAuth } from "../../../Context/AuthContext";
 import Loading from "../../shared/Loading";
-import ModalDeleteUser from "./ModalDeleteUser";
+import ModalDeleteUser from "../Modal/ModalDeleteUser";
+import useToken from "../../../hooks/useToken";
 
 const AllUsers = () => {
   //   const [users, setUsers] = useState([]);
   const { currentUser, token } = useAuth();
+
   const navigate = useNavigate();
   const [deleteUser, setDeleteUser] = useState(null);
-  let accessToken = "";
-  if (!token) {
-    accessToken = localStorage.getItem("accessToken");
-  }
+  // let accessToken = "";
+  // if (!token) {
+  //   accessToken = localStorage.getItem("accessToken");
+  // }
   const {
     data: users,
     isLoading,
@@ -25,19 +27,20 @@ const AllUsers = () => {
     fetch("http://localhost:5000/users", {
       method: "GET",
       headers: {
-        authorization: `Bearer ${token || accessToken}`,
+        "content-type": "application/json",
+        authorization: `Bearer ${token || localStorage.getItem("accessToken")}`,
       },
     }).then((res) => {
       return res.json();
     })
   );
-
-  if (isLoading) {
-    return <Loading></Loading>;
-  }
   if (currentUser) {
     refetch();
   }
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
+
   return (
     <div>
       <h3 className="text-xl my-3">There are now {users?.length} users.</h3>
@@ -77,7 +80,6 @@ const AllUsers = () => {
           refetch={refetch}
         ></ModalDeleteUser>
       )}
-      <ToastContainer />
     </div>
   );
 };

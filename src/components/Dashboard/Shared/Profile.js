@@ -5,9 +5,9 @@ const Profile = () => {
   const { currentUser } = useAuth();
   console.log(currentUser);
   return (
-    <div className="font-semibold">
-      <p>{currentUser?.displayName}</p>
-      <p>{currentUser?.email}</p>
+    <div className="font-semibold mt-10">
+      <p>Name: {currentUser?.displayName}</p>
+      <p>Email: {currentUser?.email}</p>
     </div>
   );
 };

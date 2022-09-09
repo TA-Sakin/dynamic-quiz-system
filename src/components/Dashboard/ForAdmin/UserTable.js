@@ -4,17 +4,17 @@ import { useAuth } from "../../../Context/AuthContext";
 
 const UserTable = ({ user, i, refetch, setDeleteUser }) => {
   const { email, role } = user;
-  const { token } = useAuth();
-  let accessToken = "";
-  if (!token) {
-    accessToken = localStorage.getItem("accessToken");
-  }
+  // const { token } = useAuth();
+  // let accessToken = "";
+  // if (!token) {
+  //   accessToken = localStorage.getItem("accessToken");
+  // }
   const makeAdmin = () => {
     fetch(`http://localhost:5000/user/admin/${email}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
-        authorization: `Bearer ${token || accessToken}`,
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     })
       .then((res) => {

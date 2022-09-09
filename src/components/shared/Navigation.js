@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 
 const Navigation = () => {
@@ -39,7 +39,7 @@ const Navigation = () => {
                 className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <Link to="/dashboard" className="justify-between">
+                  <Link to="/profile" className="justify-between">
                     Profile
                   </Link>
                 </li>
@@ -58,6 +58,7 @@ const Navigation = () => {
           )}
         </div>
       </div>
+      <Outlet />
     </div>
   );
 };

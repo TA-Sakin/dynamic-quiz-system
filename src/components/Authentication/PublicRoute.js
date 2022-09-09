@@ -4,7 +4,7 @@ import Loading from "../shared/Loading";
 import { useAuth } from "../../Context/AuthContext";
 
 const PublicRoute = ({ children }) => {
-  const { currentUser: user, loading, token } = useAuth();
+  const { currentUser: user, loading } = useAuth();
   let location = useLocation();
 
   if (loading) {
@@ -12,7 +12,7 @@ const PublicRoute = ({ children }) => {
   }
 
   if (user) {
-    return <Navigate to="/dashboard" state={{ from: location }} replace />;
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return children;

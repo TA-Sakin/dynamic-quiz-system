@@ -5,11 +5,11 @@ import { useEffect } from "react";
 import { useAuth } from "../../Context/AuthContext";
 
 const Signup = () => {
-  const { token, signup } = useAuth();
+  const { currentUser, signup, token } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState();
-
   const [info, setInfo] = useState({
     name: "",
     email: "",
@@ -85,7 +85,7 @@ const Signup = () => {
         setLoading(true);
         await signup(info.email, info.password, info.name);
         if (token) {
-          navigate("/dashboard");
+          navigate("/");
         }
       }
     } catch (err) {

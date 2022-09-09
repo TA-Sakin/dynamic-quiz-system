@@ -1,0 +1,125 @@
+[
+  {
+    "name": "Javascript",
+    "description": "Test your knowledge with this basic quiz made especially for beginners in JavaScript",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwamc4M6JAhWolv48ziReW167T4bMoY4Tn9Q&usqp=CAU",
+    "free": true,
+    "retake": 2,
+    "showAnsOneByOne": false,
+    "showAnsAfterSubmit": true,
+    "time": {
+      "limit": 10,
+      "perQuestion": false
+    },
+    "takenBy": 0,
+    "questions": [
+      {
+        "title": "When was Javascript invented?",
+        "options": [
+          "January 2020",
+          "March 1997",
+          "September 1995",
+          "June 2001"
+        ],
+        "answers": ["September 1995"]
+      },
+      {
+        "title": "What is the latest version of ECMAScript",
+        "options": ["ES2021", "ES2020", "ES6", "ES7"],
+        "answers": ["ES2021"]
+      },
+      {
+        "title": "Who created Javascript",
+        "options": [
+          "Steve Jobs",
+          "Mark Zuckerburg",
+          "Brendan Eich",
+          "Bill Gates"
+        ],
+        "answers": ["Brendan Eich"]
+      }
+    ]
+  },
+  {
+    "name": "Javascript",
+    "description": "Test your knowledge with this basic quiz made especially for beginners in JavaScript",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwamc4M6JAhWolv48ziReW167T4bMoY4Tn9Q&usqp=CAU",
+    "free": true,
+    "retake": 2,
+    "showAnsOneByOne": false,
+    "showAnsAfterSubmit": true,
+    "time": {
+      "limit": 10,
+      "perQuestion": false
+    },
+    "takenBy": 0,
+    "questions": [
+      {
+        "title": "When was Javascript invented?",
+        "options": [
+          "January 2020",
+          "March 1997",
+          "September 1995",
+          "June 2001"
+        ],
+        "answers": ["September 1995"]
+      },
+      {
+        "title": "What is the latest version of ECMAScript",
+        "options": ["ES2021", "ES2020", "ES6", "ES7"],
+        "answers": ["ES2021"]
+      },
+      {
+        "title": "Who created Javascript",
+        "options": [
+          "Steve Jobs",
+          "Mark Zuckerburg",
+          "Brendan Eich",
+          "Bill Gates"
+        ],
+        "answers": ["Brendan Eich"]
+      }
+    ]
+  },
+  {
+    "name": "Javascript",
+    "description": "Test your knowledge with this basic quiz made especially for beginners in JavaScript",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwamc4M6JAhWolv48ziReW167T4bMoY4Tn9Q&usqp=CAU",
+    "free": true,
+    "retake": 2,
+    "showAnsOneByOne": false,
+    "showAnsAfterSubmit": true,
+    "time": {
+      "limit": 10,
+      "perQuestion": false
+    },
+    "takenBy": 0,
+    "questions": [
+      {
+        "title": "When was Javascript invented?",
+        "options": [
+          "January 2020",
+          "March 1997",
+          "September 1995",
+          "June 2001"
+        ],
+        "answers": ["September 1995"]
+      },
+      {
+        "title": "What is the latest version of ECMAScript",
+        "options": ["ES2021", "ES2020", "ES6", "ES7"],
+        "answers": ["ES2021"]
+      },
+      {
+        "title": "Who created Javascript",
+        "options": [
+          "Steve Jobs",
+          "Mark Zuckerburg",
+          "Brendan Eich",
+          "Bill Gates"
+        ],
+        "answers": ["Brendan Eich"]
+      }
+    ]
+  }
+]

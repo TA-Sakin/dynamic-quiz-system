@@ -1,5 +1,5 @@
 import { signOut } from "firebase/auth";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import auth from "../../Utils/firebase.init";
@@ -18,7 +18,7 @@ const Home = () => {
           Welcome to Dynamic Quiz System
         </h3>
         {user ? (
-          <Link to="/dashboard">
+          <Link to="/quizes">
             <button className="btn btn-primary rounded-none no-animation">
               Checkout All The Quizes
             </button>
